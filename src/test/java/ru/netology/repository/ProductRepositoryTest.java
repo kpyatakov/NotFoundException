@@ -27,6 +27,18 @@ public class ProductRepositoryTest {
     }
 
     @Test
+    public void shouldThrowAlreadyExistsExceptionInSaveProducts() {
+        ProductRepository prod = new ProductRepository();
+        prod.save(product1);
+        prod.save(product2);
+        prod.save(product3);
+        prod.save(product4);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            prod.save(product3);
+        });
+    }
+    @Test
     public void shouldRemoveById() {
         ProductRepository prod = new ProductRepository();
         prod.save(product1);
@@ -40,4 +52,16 @@ public class ProductRepositoryTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
+    @Test
+    public void shouldTthrowNotFoundExceptionInRemoveById() {
+        ProductRepository prod = new ProductRepository();
+        prod.save(product1);
+        prod.save(product2);
+        prod.save(product3);
+        prod.save(product4);
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            prod.removeById(5);
+        });
+    }
  }
